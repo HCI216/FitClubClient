@@ -2,8 +2,8 @@ package com.nju.FitClubClient.model;
 
 import javax.xml.bind.annotation.*;
 
-@XmlRootElement(name = "ImageHelper")
-public class ImageHelper {
+@XmlRootElement(name="ImageHelperModel")
+public class ImageHelperModel {
 	private byte[] bytes;
 	private long position;
 
