@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
 	public boolean uploadImage(String imagePath, String username) {
 		// TODO Auto-generated method stub
 		try {
-			InputStream ins = new FileInputStream(imagePath);
+			
 			byte[] bytes = new byte[1024 * 1024];
 			ImageHelperModel helper = new ImageHelperModel();
 			WebClient client = WebClient.create(url);
@@ -86,7 +86,10 @@ public class UserServiceImpl implements UserService {
 					.type("application/xml");
 
 			while (true) {
+				InputStream ins = new FileInputStream(imagePath);
+				ins.skip(helper.getPosition());
 				int size = ins.read(bytes);
+				System.out.println(size);
 				if (size <= 0)
 					break;
 				byte[] fixBytes = Arrays.copyOfRange(bytes, 0, size);
@@ -108,7 +111,7 @@ public class UserServiceImpl implements UserService {
 
 	public static void main(String[] args) {
 		UserService userS = new UserServiceImpl();
-		userS.uploadImage("/home/xxd/ibeyondy/client/xxd.png", "xxd");
+		userS.downloadImage("xxd");
 		// userS.uploadImage("/home/xxd/ibeyondy/pl.png", "xxd");
 		// LogoutResult lr = userS.logout("joker");
 		// System.out.println(lr);
