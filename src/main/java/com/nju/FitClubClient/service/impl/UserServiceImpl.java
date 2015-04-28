@@ -34,9 +34,7 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(password);
 		user.setLoginOrNot(false);
 		String path = "/login/" + username;
-		return client.path(path).accept("application/xml")
-				.type("application/xml").put(user)
-				.readEntity(LoginResult.class);
+		return client.path(path).accept("application/xml").type("application/xml").put(user).readEntity(LoginResult.class);
 	}
 
 	public String getNewUserID() {
@@ -77,7 +75,7 @@ public class UserServiceImpl implements UserService {
 	public boolean uploadImage(String imagePath, String username) {
 		// TODO Auto-generated method stub
 		try {
-			
+
 			byte[] bytes = new byte[1024 * 1024];
 			ImageHelperModel helper = new ImageHelperModel();
 			WebClient client = WebClient.create(url);
@@ -89,7 +87,6 @@ public class UserServiceImpl implements UserService {
 				InputStream ins = new FileInputStream(imagePath);
 				ins.skip(helper.getPosition());
 				int size = ins.read(bytes);
-				System.out.println(size);
 				if (size <= 0)
 					break;
 				byte[] fixBytes = Arrays.copyOfRange(bytes, 0, size);
@@ -107,29 +104,6 @@ public class UserServiceImpl implements UserService {
 			e.printStackTrace();
 		}
 		return true;
-	}
-
-	public static void main(String[] args) {
-		UserService userS = new UserServiceImpl();
-		userS.downloadImage("xxd");
-		// userS.uploadImage("/home/xxd/ibeyondy/pl.png", "xxd");
-		// LogoutResult lr = userS.logout("joker");
-		// System.out.println(lr);
-		// RegisterResult rr = userS.register("xxd", "123456");
-		// if(rr.equals(RegisterResult.SUCCESS)) {
-		// System.out.println("hello");
-		// }else{
-		// System.out.println("hi");
-		// }
-		// LoginResult rs = userS.login("joker", "1234");
-		// System.out.println(rs);
-		// if (rs.equals(LoginResult.SUCCESS)) {
-		// System.out.println("hello");
-		// System.out.println("hello");
-		// System.out.println("hello");
-		// System.out.println("hello");
-		// }
-		// System.out.println("hi");
 	}
 
 	public boolean downloadImage(String username) {
