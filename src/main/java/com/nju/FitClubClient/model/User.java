@@ -1,6 +1,7 @@
 package com.nju.FitClubClient.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.xml.bind.annotation.*;
 
@@ -104,6 +105,15 @@ public class User {
 		return loseWeightTime;
 	}
 
+	public int getAge() {
+		char[] birth = this.birthDay.toCharArray();
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		int birthYear = Integer.parseInt("" + birth[0] + birth[1] + birth[2]
+				+ birth[3]);
+		return year - birthYear;
+	}
+
 	public void setLoseWeightTime(int loseWeightTime) {
 		this.loseWeightTime = loseWeightTime;
 	}
@@ -115,4 +125,5 @@ public class User {
 	public void setWeightList(ArrayList<WeightRecord> weightList) {
 		this.weightList = weightList;
 	}
+
 }

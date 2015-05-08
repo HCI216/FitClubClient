@@ -1,8 +1,11 @@
 package com.nju.FitClubClient.service;
 
+import java.util.ArrayList;
+
 import com.nju.FitClubClient.Enum.LoginResult;
 import com.nju.FitClubClient.Enum.LogoutResult;
 import com.nju.FitClubClient.Enum.RegisterResult;
+import com.nju.FitClubClient.model.WeightRecord;
 
 public interface UserService {
 
@@ -15,4 +18,9 @@ public interface UserService {
 	public boolean uploadImage(String url,String username);
 	
 	public boolean downloadImage(String username);
+	
+	public boolean recordWeight(String userID,double newWeight);
+	
+	public ArrayList<WeightRecord> getAllWeightRecord(String userID); 
+	
 }

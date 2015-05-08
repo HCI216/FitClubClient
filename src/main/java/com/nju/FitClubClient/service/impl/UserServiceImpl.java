@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
@@ -20,6 +21,8 @@ import com.nju.FitClubClient.Enum.LogoutResult;
 import com.nju.FitClubClient.Enum.RegisterResult;
 import com.nju.FitClubClient.model.ImageHelperModel;
 import com.nju.FitClubClient.model.User;
+import com.nju.FitClubClient.model.WeightRecord;
+import com.nju.FitClubClient.model.WeightRecordList;
 import com.nju.FitClubClient.service.UserService;
 
 public class UserServiceImpl implements UserService {
@@ -34,25 +37,15 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(password);
 		user.setLoginOrNot(false);
 		String path = "/login/" + username;
-		return client.path(path).accept("application/xml").type("application/xml").put(user).readEntity(LoginResult.class);
-	}
-
-	public String getNewUserID() {
-		Calendar cal = Calendar.getInstance();
-		String year = cal.get(Calendar.YEAR) + "";
-		String month = cal.get(Calendar.MONTH) + "";
-		String day = cal.get(Calendar.DAY_OF_MONTH) + "";
-		String hour = cal.get(Calendar.HOUR_OF_DAY) + "";
-		String minutes = cal.get(Calendar.MINUTE) + "";
-		String sec = cal.get(Calendar.SECOND) + "";
-		return year + month + day + hour + minutes + sec;
+		return client.path(path).accept("application/xml")
+				.type("application/xml").put(user)
+				.readEntity(LoginResult.class);
 	}
 
 	public RegisterResult register(String username, String password) {
 		// TODO Auto-generated method stub
 		WebClient client = WebClient.create(url);
 		User user = new User();
-		user.setUserID(getNewUserID());
 		user.setUserName(username);
 		user.setPassword(password);
 		String path = "/register";
@@ -143,6 +136,27 @@ public class UserServiceImpl implements UserService {
 			position += myfile.getBytes().length;
 		}
 		return true;
+	}
+
+	public boolean recordWeight(String userID, double newWeight) {
+		// TODO Auto-generated method stub
+		WebClient client = WebClient.create(url);
+		WeightRecord record = new WeightRecord();
+		record.setUserID(userID);
+		record.setWeight(newWeight);
+		String path = "/recordWeight/" + userID + "/" + newWeight;
+		client.path(path).accept("application/xml").type("application/xml")
+				.post(record);
+		return true;
+	}
+
+	public ArrayList<WeightRecord> getAllWeightRecord(String userID) {
+		// TODO Auto-generated method stub
+		WebClient client = WebClient.create(url);
+		String path = "/getAllWeightRecord/" + userID;
+		WeightRecordList list = client.path(path).accept("application/xml")
+				.type("application/xml").get(WeightRecordList.class);
+		return list.getRecords();
 	}
 
 }
